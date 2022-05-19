@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 from xlsx_to_json import xlsx_to_json
 from jinja2 import Template
@@ -9,6 +10,8 @@ INPUT = './xlsx'
 # store output dir name (filename without extension)
 output_dirs = []
 iframe_url = os.environ.get('IFRAME_URL')
+if len(sys.argv) > 1:
+    iframe_url = sys.argv[1]
 if iframe_url is not None:
     iframe_url = iframe_url.replace("\\", "")
 print(f"iframe_url from env var: {iframe_url}")

@@ -42,7 +42,7 @@ jobs:
         run: python3 -m pip install -r ./requirements.txt
 
       - name: Convert xlsx to json
-        run: python3 convert.py
+        run: python3 convert.py '${{ secrets.IFRAME_URL }}'
         env:
           IFRAME_URL: ${{ secrets.IFRAME_URL }}
 
