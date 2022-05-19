@@ -8,7 +8,9 @@ INPUT = './xlsx'
 
 # store output dir name (filename without extension)
 output_dirs = []
-iframe_url = os.environ.get('IFRAME_URL').replace("\\", "")
+iframe_url = os.environ.get('IFRAME_URL')
+if iframe_url is not None:
+    iframe_url = iframe_url.replace("\\", "")
 print(f"iframe_url from env var: {iframe_url}")
 
 if not os.path.exists(OUTPUT):
