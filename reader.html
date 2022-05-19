@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.88.1">
-    <title>Lawplus Reader</title>
+    <title>{{ dirname }}</title>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css" integrity="sha512-F7WyTLiiiPqvu2pGumDR15med0MDkUIo5VTVyyfECR5DZmCnDhti9q5VID02ItWjq6fvDfMaBaDl2J3WdL1uxA==" crossorigin="anonymous" referrerpolicy="no-referrer"
     />
@@ -98,7 +98,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.bundle.min.js" integrity="sha512-PqRelaJGXVuQ81N6wjUrRQelCDR7z8RvKGiR9SbSxKHPIt15eJDmIVv9EJgwq0XvgylszsjzvQ0+VyI2WtIshQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         var mapping = {};
-        var dirname = 'public/df1_schhuang';
+        var dirname = '';
         keyword = {
             'danger': [
 
@@ -147,7 +147,7 @@
         }
         function loadJudgement() {
             $.ajax({
-                url: `${dirname}/${uuid}.json`,
+                url: `${dirname}${uuid}.json`,
                 dataType: 'json',
                 success: function(resp) {
                     if (resp) {
@@ -172,7 +172,7 @@
             loadNextPrevPage(uuid);
         }
         function loadNextPrevPage(uuid) {
-            $.getJSON(`${dirname}/order.json`, function(order) {
+            $.getJSON(`${dirname}order.json`, function(order) {
                 console.log(order)
                 item = decodeURI(uuid)
                 idx = order.indexOf(item);
@@ -231,6 +231,7 @@
                 loadMapping(uuid);
             } else {
                 $('#title').html('No UUID given in GET');
+                loadMapping('');
             }
         })
     </script>

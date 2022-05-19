@@ -1,6 +1,7 @@
 import os
 import json
 from xlsx_to_json import xlsx_to_json
+from jinja2 import Template
 
 OUTPUT = './public'
 INPUT = './xlsx'
@@ -29,5 +30,14 @@ for output_dir in output_dirs:
 # convert xlsx to json
 for output_dir in output_dirs:
     order = xlsx_to_json(os.path.join(INPUT, f"{output_dir}.xlsx"), os.path.join(OUTPUT, output_dir))
+
+    print(f"Generate order.json in {output_dir}...")
     with open(os.path.join(OUTPUT, output_dir, 'order.json'), 'w', encoding='utf8') as w:
         w.write(json.dumps(order, indent=2, ensure_ascii=False))
+
+    print(f"Generate index.html in {output_dir}...")
+    with open('reader.html', 'r', encoding='utf8') as r:
+        reader_template = Template(r.read())
+        with open(os.path.join(OUTPUT, output_dir, 'index.html'), 'w', encoding='utf8') as w:
+            w.write(reader_template.render(
+                dirname=output_dir))
