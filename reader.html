@@ -84,7 +84,9 @@
             </div>
             <div class="col-md-5">
                 <h3 class="uuid mt-5" style="margin-left: 32px;"></h3>
-                <!--iframe src="" id="iframe" width="640" height="2323" frameborder="0" marginheight="0" marginwidth="0">載入中…</iframe-->
+                {% if iframe_url %}
+                <iframe src="{{ iframe_url }}" id="iframe" width="640" height="2323" frameborder="0" marginheight="0" marginwidth="0">載入中…</iframe>
+                {% endif %}
             </div>
             </div>
         </div>

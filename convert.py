@@ -8,6 +8,8 @@ INPUT = './xlsx'
 
 # store output dir name (filename without extension)
 output_dirs = []
+iframe_url = os.environ.get('IFRAME_URL').replace("\\", "")
+print(f"iframe_url from env var: {iframe_url}")
 
 if not os.path.exists(OUTPUT):
     os.makedirs(OUTPUT)
@@ -40,4 +42,5 @@ for output_dir in output_dirs:
         reader_template = Template(r.read())
         with open(os.path.join(OUTPUT, output_dir, 'index.html'), 'w', encoding='utf8') as w:
             w.write(reader_template.render(
-                dirname=output_dir))
+                dirname=output_dir,
+                iframe_url=iframe_url,))
