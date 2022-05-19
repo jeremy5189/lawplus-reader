@@ -28,7 +28,7 @@
             font-size: 16px;
         }
         .links {
-            margin-top: 10px;
+            margin: 10px 0 20px 0;
             height: 100%;
         }
         .links a {
@@ -73,9 +73,8 @@
     <main class="flex-shrink-0">
         <div class="container-fluid">
             <div class="row">
-            <div class="col-md-2">
-                <table class="links">
-                </table>
+            <div class="col-md-2 links">
+
             </div>
             <div class="col-md-5">
                 <h2 class="mt-5" id="title">Loading...</h2>
@@ -83,7 +82,7 @@
                 <div id="content"></div>
             </div>
             <div class="col-md-5">
-                <h3 class="uuid mt-5" style="margin-left: 32px;"></h3>
+                <h3 class="uuid mt-5" style=""></h3>
                 {% if iframe_url %}
                 <iframe src="{{ iframe_url }}" id="iframe" width="640" height="2323" frameborder="0" marginheight="0" marginwidth="0">載入中…</iframe>
                 {% endif %}
