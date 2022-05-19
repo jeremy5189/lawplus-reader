@@ -9,12 +9,7 @@ INPUT = './xlsx'
 
 # store output dir name (filename without extension)
 output_dirs = []
-iframe_url = os.environ.get('IFRAME_URL')
-if len(sys.argv) > 1:
-    iframe_url = sys.argv[1]
-if iframe_url is not None:
-    iframe_url = iframe_url.replace("\\", "")
-print(f"iframe_url from env var: {iframe_url}")
+iframe_url = None  # None to disable iframe
 
 if not os.path.exists(OUTPUT):
     os.makedirs(OUTPUT)
