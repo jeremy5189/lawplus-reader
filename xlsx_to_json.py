@@ -32,7 +32,7 @@ def xlsx_to_json(path, output):
 
         digest = sha1(struct['content'])
         name = f"{struct['casename']}_{struct['place']}_{struct['judge_date']}_{digest[0:6]}"
-        struct['uuid'] = sha1(name + digest)
+        struct['uuid'] = digest
         order.append(name)
 
         print(f"Writing to {output}/{name}.json")
