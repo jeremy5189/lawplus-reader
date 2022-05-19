@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>df1_schhuang</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css" integrity="sha512-F7WyTLiiiPqvu2pGumDR15med0MDkUIo5VTVyyfECR5DZmCnDhti9q5VID02ItWjq6fvDfMaBaDl2J3WdL1uxA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+        #content {
+            font-size: 16px;
+        }
+        .links {
+            margin-top: 10px;
+            height: 100%;
+        }
+        .links a {
+            font-size: 12px;
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    <style>
+        main>.container-fluid {
+            padding: 60px 15px 0;
+        }
+    </style>
+</head>
+
+<body class="d-flex flex-column h-100">
+    <header>
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Lawplus Reader</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+               <span class="navbar-toggler-icon"></span>
+               </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="prev" aria-current="page" href="#">&lt;&lt; Prev</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" id="next" aria-current="page" href="#">Next &gt;&gt;</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex" action="" method="GET">
+                        <input class="form-control me-2" type="text" name="uuid" placeholder="UUID" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Goto</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- Begin page content -->
+    <main class="flex-shrink-0">
+        <div class="container-fluid">
+            <div class="row">
+            <div class="col-md-2">
+                <table class="links">
+                </table>
+            </div>
+            <div class="col-md-5">
+                <h2 class="mt-5" id="title">Loading...</h2>
+                <h3 id="issue"></h3>
+                <div id="content"></div>
+            </div>
+            <div class="col-md-5">
+                <h3 class="uuid mt-5" style="margin-left: 32px;"></h3>
+                
+            </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container" id="footer">
+            <span class="text-muted uuid"></span>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.bundle.min.js" integrity="sha512-PqRelaJGXVuQ81N6wjUrRQelCDR7z8RvKGiR9SbSxKHPIt15eJDmIVv9EJgwq0XvgylszsjzvQ0+VyI2WtIshQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        var mapping = {};
+        var dirname = '';
+        keyword = {
+            'danger': [
+
+            ],
+            'success': [
+
+            ],
+            'info': [
+
+            ],
+            'primary': [
+
+            ],
+        };
+
+        function procHTML(str) {
+            // clean tag
+            str = str.replace(/<\/?[^>]+(>|$)/g, "");
+            str = str.replace(/\n/g, "<br>");
+            // mark
+            for (let key in keyword) {
+                keyword[key].forEach(function(w) {
+                    re = new RegExp(`(${w})`, "g");
+                    str = str.replace(re, `<span class=\"text-${key}\">$1</span>`);
+                })
+            }
+            return str;
+        }
+        function showKeyword() {
+            for (let key in keyword) {
+                $('#footer').append(`<br/><span class=\"text-${key}\">${keyword[key].join(', ')}</span>`);
+            }
+        }
+        function getSearchParameters() {
+            var prmstr = window.location.search.substr(1);
+            return prmstr != null && prmstr != "" ? transformToAssocArray(prmstr) : {};
+        }
+        function transformToAssocArray( prmstr ) {
+            var params = {};
+            var prmarr = prmstr.split("&");
+            for ( var i = 0; i < prmarr.length; i++) {
+                var tmparr = prmarr[i].split("=");
+                params[tmparr[0]] = tmparr[1];
+            }
+            return params;
+        }
+        function loadJudgement() {
+            $.ajax({
+                url: `${dirname}${uuid}.json`,
+                dataType: 'json',
+                success: function(resp) {
+                    if (resp) {
+                        j = resp;
+                        title = `${court_map[`${j.place}`]} ${j.casename}`;
+                        $('#title').html(title);
+                        $(document).prop('title', title);
+                        $('#issue').html(j.issue);
+                        $('#content').html(procHTML(j.content));
+                        $('.uuid').html(`${title}`);
+                    }
+                },
+                error: function(err) {
+                    console.log(err);
+                    if (err.status === 404) {
+                        $('#title').html('Not Found');
+                    }
+                }
+            });
+        }
+        function loadMapping(uuid) {
+            loadNextPrevPage(uuid);
+        }
+        function loadNextPrevPage(uuid) {
+            $.getJSON(`${dirname}order.json`, function(order) {
+                console.log(order)
+                item = decodeURI(uuid)
+                idx = order.indexOf(item);
+                console.log(item, idx);
+                if (idx > 0 && idx < order.length - 1) {
+                    $('#prev').attr('href', `?uuid=${encodeURI(order[idx - 1])}`);
+                    $('#prev').html(`&lt;&lt; ${order[idx - 1]}`);
+                    $('#next').attr('href', `?uuid=${encodeURI(order[idx + 1])}`);
+                    $('#next').html(`${order[idx + 1]} &gt;&gt;`);
+                } else if (idx === 0) {
+                    $('#prev').remove();
+                    $('#next').attr('href', `?uuid=${encodeURI(order[idx + 1])}`);
+                    $('#next').html(`${order[idx + 1]} &gt;&gt;`);
+                } else if (idx === order.length - 1) {
+                    $('#next').remove();
+                    $('#prev').attr('href', `?uuid=${encodeURI(order[idx - 1])}`);
+                    $('#prev').html(`&lt;&lt; ${order[idx - 1]}`);
+                }
+                // links
+                for (let i = 0; i < order.length; i++) {
+                    $('.links').append(`<tr><td><a href="?uuid=${encodeURI(order[i])}" class="">${order[i]}</a></tr></td>`);
+                }
+            });
+        }
+        court_map = {
+            'KLDV': '基隆地院',
+            'KSDV': '高雄地院',
+            'PCDV': '板橋地院',
+            'TPDV': '台北地院',
+            'CYDV': '嘉義地院',
+            'SLDV': '士林地院',
+            'HLDV': '花蓮地院',
+            'TCDV': '台中地院',
+            'TCHV': '台中高院',
+            'CHDV': '彰化地院',
+            'ILDV': '宜蘭地院',
+            'SCDV': '新竹地院',
+            'TNDV': '台南地院',
+            'PTDV': '屏東地院',
+            'MLDV': '苗栗地院',
+            'TNHV': '台南高院',
+            'NTDV': '南投地院',
+            'TYDV': '桃園地院',
+            'TPSV': '最高法院',
+            'TTDV': '台東地院',
+            'PHDV': '澎湖地院',
+        };
+
+        $(function() {
+            showKeyword();
+            params = getSearchParameters();
+            uuid = '';
+            if (params.uuid) {
+                uuid = params.uuid;
+                loadJudgement();
+                loadMapping(uuid);
+            } else {
+                $('#title').html('No UUID given in GET');
+                loadMapping('');
+            }
+        })
+    </script>
+</body>
+
+</html>
