@@ -91,6 +91,7 @@
     <footer class="footer mt-auto py-3 bg-light">
         <div class="container" id="footer">
             <span class="text-muted uuid"></span>
+            <br/><span class="text-muted related_statue"></span>
         </div>
     </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -156,7 +157,12 @@
                         $(document).prop('title', title);
                         $('#issue').html(j.issue);
                         $('#content').html(procHTML(j.content));
-                        $('.uuid').html(`${title}`);
+                        $('.uuid').html(`${j.uuid}`);
+                        related_statue = '相關法條';
+                        for(let key in j.related_statue) {
+                            related_statue += ` / ${j.related_statue[key]}`;
+                        }
+                        $('.related_statue').html(related_statue);
                     }
                 },
                 error: function(err) {
